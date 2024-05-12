@@ -8,4 +8,4 @@
 ## Решение:
 
 ### Схема сети
-[](img/Schema.png)
+![](img/Schema.png)
