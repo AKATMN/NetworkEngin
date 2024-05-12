@@ -7,4 +7,5 @@
 
 ## Решение:
 
-[](img/schema.png)
+### Схема сети
+[](img/Schema.png)
