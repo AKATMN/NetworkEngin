@@ -34,6 +34,6 @@
 | spine-2 | Loopback1 | 10.0.2.0/32 |            |
 | spine-2 |  eth 1/1  | 10.2.2.0/31 |  to-leaf-1  |
 | spine-2 |  eth 1/2  | 10.2.2.2/31 |  to-leaf-2  |
-| spine-2 |  eth 1/3  | 10.2.2.2/31 |  to-leaf-3  |
+| spine-2 |  eth 1/3  | 10.2.2.4/31 |  to-leaf-3  |
 
 ## Конфигурации устройств:
