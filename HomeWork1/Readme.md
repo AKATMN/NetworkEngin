@@ -39,7 +39,7 @@
 ## Конфигурации устройств:
 
 #### - [spine-1](Config/spine-1.cfg)
-'''
+```
 hostname spine-1
 
 interface Ethernet1
@@ -60,11 +60,11 @@ interface Ethernet3
 interface Loopback1
    ip address 10.0.1.0/32
 
-'''
+```
 
 #### - [spine-2](Config/spine-2.cfg)
 
-'''
+```
 hostname spine-2
 
 interface Ethernet1
@@ -85,11 +85,11 @@ interface Ethernet3
 interface Loopback1
    ip address 10.0.2.0/32
 
-'''
+```
 
 #### - [leaf-1](Config/leaf-1.cfg)
 
-'''
+```
 
 hostname leaf-1
 
@@ -106,11 +106,11 @@ interface Ethernet2
 interface Loopback2
    ip address 10.1.0.1/32
 
-'''
+```
 
 #### - [leaf-2](Config/leaf-2.cfg)
 
-'''
+```
 
 hostname leaf-2
 
@@ -127,11 +127,11 @@ interface Ethernet2
 interface Loopback2
    ip address 10.1.0.2/32
 
-'''
+```
 
 #### - [leaf-3](Config/leaf-3.cfg)
 
-'''
+```
 
 hostname leaf-3
 
@@ -148,4 +148,4 @@ interface Ethernet2
 interface Loopback2
    ip address 10.1.0.3/32
 
-'''
+```
