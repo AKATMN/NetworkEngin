@@ -37,3 +37,115 @@
 | spine-2 | Ethernet3 | 10.2.2.4/31 |  to-leaf-3  |
 
 ## Конфигурации устройств:
+
+#### - [spine-1](Config/spine-1.cfg)
+'''
+hostname spine-1
+
+interface Ethernet1
+   description to-leaf-1
+   no switchport
+   ip address 10.2.1.0/31
+
+ interface Ethernet2
+   description to-leaf-2
+   no switchport
+   ip address 10.2.1.2/31
+
+interface Ethernet3
+   description to-leaf-3
+   no switchport
+   ip address 10.2.1.4/31
+
+interface Loopback1
+   ip address 10.0.1.0/32
+
+'''
+
+#### - [spine-2](Config/spine-2.cfg)
+
+'''
+hostname spine-2
+
+interface Ethernet1
+   description to-leaf-1
+   no switchport
+   ip address 10.2.2.0/31
+
+interface Ethernet2 
+   description to-leaf-2
+   no switchport
+   ip address 10.2.2.2/31
+
+interface Ethernet3
+   description to-leaf-3
+   no switchport
+   ip address 10.2.2.4/31
+
+interface Loopback1
+   ip address 10.0.2.0/32
+
+'''
+
+#### - [leaf-1](Config/leaf-1.cfg)
+
+'''
+
+hostname leaf-1
+
+interface Ethernet1
+   description to-spine-1
+   no switchport
+   ip address 10.2.1.1/31
+
+interface Ethernet2
+   description to-spine-2
+   no switchport
+   ip address 10.2.2.1/31
+
+interface Loopback2
+   ip address 10.1.0.1/32
+
+'''
+
+#### - [leaf-2](Config/leaf-2.cfg)
+
+'''
+
+hostname leaf-2
+
+interface Ethernet1
+   description to-spine-1
+   no switchport
+   ip address 10.2.1.3/31
+
+interface Ethernet2
+   description to-spine-2
+   no switchport
+   ip address 10.2.2.3/31
+
+interface Loopback2
+   ip address 10.1.0.2/32
+
+'''
+
+#### - [leaf-3](Config/leaf-3.cfg)
+
+'''
+
+hostname leaf-3
+
+interface Ethernet1
+   description to-spine-1
+   no switchport
+   ip address 10.2.1.5/31
+
+interface Ethernet2
+   description to-spine-2
+   no switchport
+   ip address 10.2.2.5/31
+
+interface Loopback2
+   ip address 10.1.0.3/32
+
+'''
