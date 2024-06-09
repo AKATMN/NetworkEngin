@@ -5,3 +5,5 @@
 [02 Построение сети Underlay OSPF](HomeWork2)
 
 [03 Построение сети Underlay IS-IS](HomeWork3)
+
+[04 Построение сети Underlay BGP](HomeWork4)
