@@ -8,7 +8,7 @@
 ## Решение:
 
 ### Схема сети
-![](img/SchemaeBGP.png)
+![](img/Schema_eBGP.png)
 
 ## Конфигурации:
 
