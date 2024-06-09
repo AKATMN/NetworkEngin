@@ -62,7 +62,7 @@ router bgp 65000
       neighbor fe80::12%Et2 activate
       neighbor fe80::13%Et3 activate
 
-    ```
+```
 
 - [spine-2](Config/spine-2.cfg)
 
@@ -114,7 +114,7 @@ router bgp 65000
       neighbor fe80::12%Et2 activate
       neighbor fe80::13%Et3 activate
 
-    ```
+```
 
 - [leaf-1.cfg](Config/leaf-1.cfg)
 
