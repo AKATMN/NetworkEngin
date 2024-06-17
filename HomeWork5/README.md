@@ -42,7 +42,6 @@ router bgp 65000
    neighbor LEAFS bfd
    neighbor LEAFS auto-local-addr
    neighbor LEAFS send-community
-   no bgp redistribute-internal
    redistribute connected route-map BGP_ALLOW
    
    address-family evpn
@@ -86,7 +85,6 @@ router bgp 65000
    neighbor LEAFS bfd
    neighbor LEAFS auto-local-addr
    neighbor LEAFS send-community
-   no bgp redistribute-internal
    redistribute connected route-map BGP_ALLOW
    
    address-family evpn
