@@ -293,7 +293,7 @@ router bgp 65003
 ## Проверка связанности клиентов
 
 - spine-1
-
+```
 spine-1#show bgp evpn summary
 BGP summary information for VRF default
 Router identifier 10.0.1.0, local AS number 65000
@@ -302,9 +302,9 @@ Neighbor Status Codes: m - Under maintenance
   10.0.3.1 4 65001           2252      2244    0    0 01:34:54 Estab   1      1
   10.0.3.2 4 65002           1716      1713    0    0 01:12:28 Estab   1      1
   10.0.3.3 4 65003           1364      1367    0    0 00:57:28 Estab   2      2
-
+```
 - spine-2
-
+```
 spine-2#show bgp evpn summary
 BGP summary information for VRF default
 Router identifier 10.0.2.0, local AS number 65000
@@ -313,9 +313,9 @@ Neighbor Status Codes: m - Under maintenance
   10.0.3.1 4 65001           1951      1970    0    0 01:22:42 Estab   1      1
   10.0.3.2 4 65002           1730      1759    0    0 01:13:41 Estab   1      1
   10.0.3.3 4 65003           1392      1401    0    0 00:58:42 Estab   2      2
-
+```
 - leaf-1
-
+```
 leaf-1#show ip route
 
 VRF: default
@@ -391,10 +391,10 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  10.1.0.3              -       100     0       65000 65003 i
  *  ec    RD: 65003:10010 mac-ip 0050.7966.6808
                                  10.1.0.3              -       100     0       65000 65003 i
-
+```
 
 - leaf-2
-
+```
 leaf-2#show ip route
 
 VRF: default
@@ -470,9 +470,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  10.1.0.3              -       100     0       65000 65003 i
  *  ec    RD: 65003:10020 mac-ip 0050.7966.6809
                                  10.1.0.3              -       100     0       65000 65003 i
-
+```
 - leaf-3
-
+```
 leaf-3#show ip route
 
 VRF: default
@@ -556,9 +556,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  -                     -       -       0       i
  * >      RD: 65003:10020 mac-ip 0050.7966.6809
                                  -                     -       -       0       i
-
+```
 - VPC-1
-
+```
 VPC_1> ping 192.168.100.13
 
 84 bytes from 192.168.100.13 icmp_seq=1 ttl=64 time=40.891 ms
@@ -566,9 +566,9 @@ VPC_1> ping 192.168.100.13
 84 bytes from 192.168.100.13 icmp_seq=3 ttl=64 time=17.515 ms
 84 bytes from 192.168.100.13 icmp_seq=4 ttl=64 time=17.768 ms
 84 bytes from 192.168.100.13 icmp_seq=5 ttl=64 time=44.500 ms
-
+```
 - VPC-2
-
+```
 VPC_2> ping 192.168.200.14
 
 84 bytes from 192.168.200.14 icmp_seq=1 ttl=64 time=42.874 ms
@@ -576,9 +576,9 @@ VPC_2> ping 192.168.200.14
 84 bytes from 192.168.200.14 icmp_seq=3 ttl=64 time=19.413 ms
 84 bytes from 192.168.200.14 icmp_seq=4 ttl=64 time=23.374 ms
 84 bytes from 192.168.200.14 icmp_seq=5 ttl=64 time=18.620 ms
-
+```
 - VPC-3
-
+```
 VPC_3> ping 192.168.100.11
 
 84 bytes from 192.168.100.11 icmp_seq=1 ttl=64 time=116.848 ms
@@ -586,9 +586,9 @@ VPC_3> ping 192.168.100.11
 84 bytes from 192.168.100.11 icmp_seq=3 ttl=64 time=54.580 ms
 84 bytes from 192.168.100.11 icmp_seq=4 ttl=64 time=88.401 ms
 84 bytes from 192.168.100.11 icmp_seq=5 ttl=64 time=21.657 ms
-
+```
 - VPC-4
-
+```
 VPC_4> ping 192.168.200.11
 
 84 bytes from 192.168.200.11 icmp_seq=1 ttl=64 time=21.250 ms
@@ -596,7 +596,7 @@ VPC_4> ping 192.168.200.11
 84 bytes from 192.168.200.11 icmp_seq=3 ttl=64 time=24.758 ms
 84 bytes from 192.168.200.11 icmp_seq=4 ttl=64 time=18.924 ms
 84 bytes from 192.168.200.11 icmp_seq=5 ttl=64 time=26.181 ms
-
+```
 
 
 
