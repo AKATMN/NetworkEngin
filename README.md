@@ -9,3 +9,5 @@
 [04 Построение сети Underlay BGP](HomeWork4)
 
 [05 Настройка сети Overlay VxLAN L2](HomeWork5)
+
+[06 Настройка сети Overlay VxLAN L3](HomeWork6)
