@@ -11,3 +11,330 @@
 ![](img/Schema_VxLAN_L3.png)
 
 ## Конфигурации:
+
+- [spine-1](Config/spine-1.cfg)
+
+```
+interface Loopback1
+   ip address 10.0.1.0/32
+
+ip prefix-list BGP_out seq 10 permit 10.0.1.0/32
+
+route-map BGP_out_map permit 10
+   match ip address prefix-list BGP_out
+
+peer-filter EVPN
+   10 match as-range 65001-65003 result accept
+
+peer-filter LEAFS
+   10 match as-range 65001-65003 result accept
+
+router bgp 65000
+   router-id 10.0.1.0
+   bgp default ipv4-unicast transport ipv6
+   timers bgp 3 9
+   maximum-paths 2 ecmp 2
+   bgp listen range 10.0.3.0/24 peer-group EVPN peer-filter EVPN
+   bgp listen range fe80::/64 peer-group LEAFS peer-filter LEAFS
+   neighbor EVPN peer group
+   neighbor EVPN next-hop-unchanged
+   neighbor EVPN update-source Loopback1
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community extended
+   neighbor LEAFS peer group
+   neighbor LEAFS bfd
+   neighbor LEAFS auto-local-addr
+   neighbor LEAFS password 7 b86CRLUyvVyBSvjcT7UH5A==
+   neighbor LEAFS send-community
+   redistribute connected route-map BGP_out_map
+   
+   address-family evpn
+      neighbor EVPN activate
+   
+   address-family ipv4
+      neighbor LEAFS activate
+   
+   address-family ipv6
+      neighbor LEAFS activate
+
+```
+- [spine-2](Config/spine-2.cfg)
+
+```
+interface Loopback1
+   ip address 10.0.2.0/32
+
+ip prefix-list BGP_out seq 10 permit 10.0.2.0/32
+
+route-map BGP_out_map permit 10
+   match ip address prefix-list BGP_out
+
+peer-filter EVPN
+   10 match as-range 65001-65003 result accept
+
+peer-filter LEAFS
+   10 match as-range 65001-65003 result accept
+
+router bgp 65000
+   router-id 10.0.2.0
+   timers bgp 3 9
+   maximum-paths 2 ecmp 2
+   bgp listen range 10.0.3.0/24 peer-group EVPN peer-filter EVPN
+   bgp listen range fe80::/64 peer-group LEAFS peer-filter LEAFS
+   neighbor EVPN peer group
+   neighbor EVPN next-hop-unchanged
+   neighbor EVPN update-source Loopback1
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community extended
+   neighbor LEAFS peer group
+   neighbor LEAFS bfd
+   neighbor LEAFS auto-local-addr
+   neighbor LEAFS password 7 b86CRLUyvVyBSvjcT7UH5A==
+   neighbor LEAFS send-community
+   redistribute connected route-map BGP_out_map
+   
+   address-family evpn
+      neighbor EVPN activate
+   
+   address-family ipv4
+      neighbor LEAFS activate
+   
+   address-family ipv6
+      neighbor LEAFS activate
+
+```
+- [leaf-1](Config/leaf-1.cfg)
+
+```
+vlan 100
+
+vrf instance OTUS
+
+interface Loopback1
+   description EVPN_VxLAN
+   ip address 10.0.3.1/32
+
+interface Loopback2
+   description router-id for BGP
+   ip address 10.1.0.1/32
+
+interface Vlan100
+   vrf OTUS
+   ip address 192.168.100.1/24
+
+interface Vxlan1
+   vxlan source-interface Loopback1
+   vxlan udp-port 4789
+   vxlan vlan 100 vni 10010
+   vxlan vrf OTUS vni 333
+   vxlan learn-restrict any
+
+ip prefix-list BGP_out seq 10 permit 10.0.3.1/32
+ip prefix-list BGP_out seq 20 permit 10.1.0.1/32
+
+route-map BGP_out_map permit 10
+   match ip address prefix-list BGP_out
+
+router bgp 65001
+   router-id 10.1.0.1
+   bgp default ipv4-unicast transport ipv6
+   timers bgp 3 9
+   maximum-paths 2 ecmp 2
+   neighbor EVPN peer group
+   neighbor EVPN remote-as 65000
+   neighbor EVPN update-source Loopback1
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community extended
+   neighbor SPINES peer group
+   neighbor SPINES remote-as 65000
+   neighbor SPINES bfd
+   neighbor SPINES auto-local-addr
+   neighbor SPINES password 7 P1GCpTlgo6U9in80t4X0Rw==
+   neighbor SPINES send-community
+   neighbor 10.0.1.0 peer group EVPN
+   neighbor 10.0.2.0 peer group EVPN
+   neighbor fe80::1%Et1 peer group SPINES
+   neighbor fe80::2%Et2 peer group SPINES
+   redistribute connected route-map BGP_out_map
+   
+   vlan 100
+      rd 65001:10010
+      route-target both 10:10010
+      redistribute learned
+   
+   address-family evpn
+      neighbor EVPN activate
+   
+   address-family ipv4
+      neighbor SPINES activate
+   
+   address-family ipv6
+      neighbor SPINES activate
+   
+   vrf OTUS
+      rd 65001:333
+      route-target import evpn 33:333
+      route-target export evpn 33:333
+
+```
+- [leaf-2](Config/leaf-2.cfg)
+
+```
+vlan 200
+
+vrf instance OTUS
+
+interface Loopback1
+   description EVPN_VxLAN
+   ip address 10.0.3.2/32
+
+interface Loopback2
+   description router-id for BGP
+   ip address 10.1.0.2/32
+
+interface Vlan200
+   vrf OTUS
+   ip address 192.168.200.1/24
+
+interface Vxlan1
+   vxlan source-interface Loopback1
+   vxlan udp-port 4789
+   vxlan vlan 200 vni 10020
+   vxlan vrf OTUS vni 333
+   vxlan learn-restrict any
+
+ip routing
+ip routing vrf OTUS
+
+ip prefix-list BGP_out seq 10 permit 10.0.3.2/32
+ip prefix-list BGP_out seq 20 permit 10.1.0.2/32
+
+route-map BGP_out_map permit 10
+   match ip address prefix-list BGP_out
+
+router bgp 65002
+   router-id 10.1.0.2
+   bgp default ipv4-unicast transport ipv6
+   timers bgp 3 9
+   maximum-paths 2 ecmp 2
+   neighbor EVPN peer group
+   neighbor EVPN remote-as 65000
+   neighbor EVPN update-source Loopback1
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community extended
+   neighbor SPINES peer group
+   neighbor SPINES remote-as 65000
+   neighbor SPINES bfd
+   neighbor SPINES auto-local-addr
+   neighbor SPINES password 7 P1GCpTlgo6U9in80t4X0Rw==
+   neighbor SPINES send-community
+   neighbor 10.0.1.0 peer group EVPN
+   neighbor 10.0.2.0 peer group EVPN
+   neighbor fe80::1%Et1 peer group SPINES
+   neighbor fe80::2%Et2 peer group SPINES
+   redistribute connected route-map BGP_out_map
+   
+   vlan 200
+      rd 65002:10020
+      route-target both 20:10020
+      redistribute learned
+   
+   address-family evpn
+      neighbor EVPN activate
+   
+   address-family ipv4
+      neighbor SPINES activate
+   
+   address-family ipv6
+      neighbor SPINES activate
+   
+   vrf OTUS
+      rd 65002:333
+      route-target import evpn 33:333
+      route-target export evpn 33:333
+
+```
+- [leaf-3](Config/leaf-3.cfg)
+
+```
+vlan 110,120
+
+vrf instance OTUS
+
+interface Loopback1
+   description EVPN_VxLAN
+   ip address 10.0.3.3/32
+
+interface Loopback2
+   description router-id for BGP
+   ip address 10.1.0.3/32
+
+interface Vlan110
+   vrf OTUS
+   ip address 192.168.100.1/24
+
+interface Vlan120
+   vrf OTUS
+   ip address 192.168.200.1/24
+
+interface Vxlan1
+   vxlan source-interface Loopback1
+   vxlan udp-port 4789
+   vxlan vlan 110 vni 10010
+   vxlan vlan 120 vni 10020
+   vxlan vrf OTUS vni 333
+   vxlan learn-restrict any
+
+ip prefix-list BGP_out seq 10 permit 10.0.3.3/32
+ip prefix-list BGP_out seq 20 permit 10.1.0.3/32
+
+route-map BGP_out_map permit 10
+   match ip address prefix-list BGP_out
+
+router bgp 65003
+   router-id 10.1.0.3
+   bgp default ipv4-unicast transport ipv6
+   timers bgp 3 9
+   maximum-paths 2 ecmp 2
+   neighbor EVPN peer group
+   neighbor EVPN remote-as 65000
+   neighbor EVPN update-source Loopback1
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community extended
+   neighbor SPINES peer group
+   neighbor SPINES remote-as 65000
+   neighbor SPINES bfd
+   neighbor SPINES auto-local-addr
+   neighbor SPINES password 7 P1GCpTlgo6U9in80t4X0Rw==
+   neighbor SPINES send-community
+   neighbor 10.0.1.0 peer group EVPN
+   neighbor 10.0.2.0 peer group EVPN
+   neighbor fe80::1%Et1 peer group SPINES
+   neighbor fe80::2%Et2 peer group SPINES
+   redistribute connected route-map BGP_out_map
+   
+   vlan 110
+      rd 65003:10010
+      route-target both 10:10010
+      redistribute learned
+   
+   vlan 120
+      rd 65003:10020
+      route-target both 20:10020
+      redistribute learned
+   
+   address-family evpn
+      neighbor EVPN activate
+   
+   address-family ipv4
+      neighbor SPINES activate
+   
+   address-family ipv6
+      neighbor SPINES activate
+   
+   vrf OTUS
+      rd 65003:333
+      route-target import evpn 33:333
+      route-target export evpn 33:333
+
+```
