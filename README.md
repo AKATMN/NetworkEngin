@@ -11,3 +11,5 @@
 [05 Настройка сети Overlay VxLAN L2](HomeWork5)
 
 [06 Настройка сети Overlay VxLAN L3](HomeWork6)
+
+[07 Настройка сети Overlay VxLAN Multihoming](HomeWork7)
