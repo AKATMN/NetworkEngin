@@ -760,7 +760,9 @@ VPC_5> ping 192.168.200.11
 84 bytes from 192.168.200.11 icmp_seq=5 ttl=63 time=18.313 ms
 
 VPC_5>
-```VPC_3> ping 192.168.100.12
+```
+```
+VPC_3> ping 192.168.100.12
 
 84 bytes from 192.168.100.12 icmp_seq=1 ttl=64 time=27.595 ms
 84 bytes from 192.168.100.12 icmp_seq=2 ttl=64 time=21.218 ms
