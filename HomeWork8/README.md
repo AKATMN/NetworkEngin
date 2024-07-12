@@ -421,7 +421,7 @@ router bgp 64999
 
 ## Проверка маршрутов в таблицах VRF
 
-- lief-1
+- leaf-1
 
 ```
 leaf-1#show ip route vrf BLUE
